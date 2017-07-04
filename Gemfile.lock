@@ -1,0 +1,39 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    awesome_print (1.8.0)
+    bitcoin-ruby (0.0.10)
+    coderay (1.1.1)
+    ffi (1.9.18)
+    hashie (3.5.5)
+    json (1.8.6)
+    little-plugger (1.1.4)
+    logging (2.2.2)
+      little-plugger (~> 1.1)
+      multi_json (~> 1.10)
+    method_source (0.8.2)
+    multi_json (1.12.1)
+    net-http-persistent (2.9.4)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    radiator (0.2.2)
+      bitcoin-ruby (= 0.0.10)
+      ffi (= 1.9.18)
+      hashie (~> 3.5, >= 3.5.5)
+      json (~> 1.8, >= 1.8.6)
+      logging (~> 2.2, >= 2.2.0)
+      net-http-persistent (~> 2.9, >= 2.9.4)
+    slop (3.6.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  awesome_print
+  pry
+  radiator
+
+BUNDLED WITH
+   1.14.3

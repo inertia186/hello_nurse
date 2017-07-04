@@ -1,0 +1,28 @@
+:global:
+  # Note, if you're playing the curation game, you'll probably want to use head
+  # mode.  This will usually cast your votes sooner.
+  #  
+  # mode: head - the last block
+  # mode: irreversible - the block that is confirmed by 2/3 of all block
+  # producers and is thus irreversible!
+  :mode: irreversible
+
+:voting_rules:
+  :trigger_vote_weight: 2.00 %
+  :enable_comments: true
+
+# These are all of the voters who will make transfers once the voting_rule have
+# been met.
+:voters:
+  :social:
+    :active_key: 5JrvPrQeBBvCRdjv29iDvkwn3EQYZ9jqfAHzrCyUvfbEbRkrYFC
+    :amount: 4.000 SBD
+  :bad.account:
+    :active_key: 5XXXBadWifXXXdjv29iDvkwn3EQYZ9jqfAHzrCyUvfbEbRkrYFC
+    :amount: 4.000 SBD
+
+:bots: booster
+
+:chain_options:
+  :chain: steem
+  :url: https://steemd.steemit.com
