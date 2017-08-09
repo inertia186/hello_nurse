@@ -1,4 +1,4 @@
-* Title: hello_nurse - Vote Trail Bot
+* Title: hello_nurse
 * Tags: radiator ruby booster steemdev curation
 * Notes: 
 
