@@ -2,6 +2,26 @@
 * Tags: radiator ruby booster steemdev curation
 * Notes: 
 
+You should **not** use this bot **unless** you understand **exactly** what it does.  It requires your `active_key` and its use is not recommended.  Do not ask me for support if it sends all of your money somewhere.
+
+As with all of my tools, this disclaimer applies:
+
+```
+Affirmer offers the Work as-is and makes no
+representations or warranties of any kind
+concerning the Work, express, implied,
+statutory or otherwise, including without
+limitation warranties of title,
+merchantability, fitness for a particular
+purpose, non infringement, or the absence of
+latent or other defects, accuracy, or the
+present or absence of errors, whether or not
+discoverable, all to the greatest extent
+permissible under applicable law.
+```
+
+---
+
 #### Features
 
 * YAML config.
@@ -9,12 +29,18 @@
     * `mode`
       * `head` - the last block
       * `irreversible` - (default) the block that is confirmed by 2/3 of all block producers and is thus irreversible!
+  * `voting_rules`
+    * `trigger_vote_weight` - exact voting amount to trigger a transfer.
+    * `enable_comments` - enable or disable comments to trigger votes.
+    * `max_vote_elapse` - to detect if the bots are offline (we don't want to transfer if the bot isn't voting).
+  * `voters` - list of accounts to send transfers from after they vote.
+  * `bots` - list of bots to send transfers to, separated by spaces
 
 #### Overview
 
 Hello Nurse (`hello_nurse`) is a bot that will transfer money to Dr. Otto bots when you vote a certain way.
 
-For example, you can configure this bot to watch for 1% votes by you, and when that happens, transfer 2 SBD to your favorite pay-for-bote bot.  The memo will be set to the post that got a 1% upvote.
+For example, you can configure this bot to watch for 1% votes by you, and when that happens, transfer 2 SBD to your favorite pay-for-vote bot.  The memo will be set to the post that got a 1% upvote.
 
 ---
 
