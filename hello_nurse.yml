@@ -10,6 +10,10 @@
 :voting_rules:
   :trigger_vote_weight: 2.00 %
   :enable_comments: true
+  
+  # Stop transfers if the bots' last_vote_time is more than this elapsed time
+  # (in minutes).
+  :max_vote_elapse: 600
 
 # These are all of the voters who will make transfers once the voting_rule have
 # been met.

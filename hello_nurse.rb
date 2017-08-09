@@ -35,8 +35,20 @@ def may_transfer?(op)
   end
 end
 
+def voted_lately?(bot)
+  response = @api.get_accounts([bot])
+  account = response.result.first
+  last_vote_time = Time.parse(account.last_vote_time + 'Z')
+  elapse = Time.now.utc - last_vote_time
+  elapse < @rules[:max_vote_elapse]
+end
+
 def transfer(op, comment)
   @bots.each do |bot|
+    
+    # We don't want to transfer if the bot isn't voting.  It might be offline.
+    next unless voted_lately?(bot)
+    
     voter = @voters[op.voter.to_sym]
     active_voters = comment.active_votes.map(&:voter)
     

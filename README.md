@@ -56,7 +56,8 @@ Edit the configuration file `hello_nurse.yml`
 :voting_rules:
   :trigger_vote_weight: 2.00 %
   :enable_comments: true
-
+  :max_vote_elapse: 600
+  
 :voters:
   :social:
     :active_key: 5JrvPrQeBBvCRdjv29iDvkwn3EQYZ9jqfAHzrCyUvfbEbRkrYFC
