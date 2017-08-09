@@ -21,6 +21,10 @@
     :active_key: 5XXXBadWifXXXdjv29iDvkwn3EQYZ9jqfAHzrCyUvfbEbRkrYFC
     :amount: 4.000 SBD
 
+# Make sure these bots will accept payments for votes.  Also make sure you are
+# sending the right amount.  Bots that are not running Dr. Otto may require an
+# exact amount (e.g.: 2.000 SBD instead of any amount you want), so be sure to
+# set the proper amount for each voter above.
 :bots: booster
 
 :chain_options:
