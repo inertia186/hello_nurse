@@ -51,7 +51,7 @@ def transfer(op, comment)
       from: op.voter,
       to: bot,
       amount: amount,
-      memo: "@#{comment.author}/#{comment.permlink}"
+      memo: "https://steemit.com/#{comment.parent_permlink}/@#{comment.author}/#{comment.permlink}"
     }
     
     wif = voter[:active_key]
