@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'yaml'
-require 'pry'
 
 Bundler.require
 
@@ -40,7 +39,11 @@ def voted_lately?(bot)
   account = response.result.first
   last_vote_time = Time.parse(account.last_vote_time + 'Z')
   elapse = Time.now.utc - last_vote_time
-  elapse < @rules[:max_vote_elapse]
+  bot_voted_lately = elapse < @rules[:max_vote_elapse]
+  
+  ap "#{bot} may not be online." unless bot_voted_lately
+  
+  bot_voted_lately
 end
 
 def transfer(op, comment)
@@ -58,18 +61,13 @@ def transfer(op, comment)
     end
     
     amount = voter[:amount]
-    transfer = {
-      type: :transfer,
-      from: op.voter,
+    steem = Steem.new(account_name: op.voter, wif: voter[:active_key])
+    options = {
       to: bot,
       amount: amount,
       memo: "https://steemit.com/#{comment.parent_permlink}/@#{comment.author}/#{comment.permlink}"
     }
-    
-    wif = voter[:active_key]
-    tx = Radiator::Transaction.new(@chain_options.dup.merge(wif: wif))
-    tx.operations << transfer
-    ap tx.process(true)
+    ap steem.transfer!(options)
   end
 end
 
@@ -81,8 +79,8 @@ end
 ap "Now watching #{@voters.keys.join(', ')} ..."
 
 loop do
-  @api = Radiator::Api.new(@chain_options.dup)
-  @stream = Radiator::Stream.new(@chain_options.dup)
+  @api = Radiator::Api.new(@chain_options)
+  @stream = Radiator::Stream.new(@chain_options)
   
   mode = @config[:global][:mode].to_sym rescue :irreversible
   
@@ -100,17 +98,15 @@ loop do
   rescue => e
     m = e.message
     
-    if m =~ /undefined method `transactions' for nil:NilClass/ && mode == :head
-      # Block hasn't reached the node yet.  Just retry with a small delay
-      # without reporting an error.
+    ap "Pausing #{@backoff} :: Unable to stream on current node.  Error: #{e}"
+    ap e.backtrace
       
-      sleep 0.2
-    else
-      ap "Pausing #{@backoff} :: Unable to stream on current node.  Error: #{e}"
-      ap e.backtrace
-      
-      sleep @backoff
-      @backoff = [@backoff * 2, MAX_BACKOFF].min
-    end
+    @api.shutdown
+    @api = nil
+    @stream.shutdown
+    @stream = nil
+    
+    sleep @backoff
+    @backoff = [@backoff * 2, MAX_BACKOFF].min
   end
 end
