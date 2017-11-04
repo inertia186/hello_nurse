@@ -35,15 +35,16 @@ def may_transfer?(op)
 end
 
 def voted_lately?(bot)
-  response = @api.get_accounts([bot])
-  account = response.result.first
-  last_vote_time = Time.parse(account.last_vote_time + 'Z')
-  elapse = Time.now.utc - last_vote_time
-  bot_voted_lately = elapse < @rules[:max_vote_elapse]
+  @api.get_accounts([bot]) do |accounts, error|
+    account = accounts.first
+    last_vote_time = Time.parse(account.last_vote_time + 'Z')
+    elapse = Time.now.utc - last_vote_time
+    bot_voted_lately = elapse < @rules[:max_vote_elapse]
   
-  ap "#{bot} may not be online." unless bot_voted_lately
+    ap "#{bot} may not be online." unless bot_voted_lately
   
-  bot_voted_lately
+    bot_voted_lately
+  end
 end
 
 def transfer(op, comment)
@@ -88,10 +89,15 @@ loop do
     @stream.operations(:vote, nil, mode) do |op|
       @backoff ||= 0.001
       next unless may_transfer?(op)
-      response = @api.get_content(op.author, op.permlink)
-      comment = response.result
       
-      transfer(op, comment)
+      @api.get_content(op.author, op.permlink) do |comment, error|
+        if !!error
+          parser = Radiator::ErrorParser.new(error)
+          raise StandardException, parser
+        end
+        
+        transfer(op, comment)
+      end
       
       @backoff = nil
     end
