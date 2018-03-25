@@ -20,7 +20,10 @@ end
 @voters = @config[:voters]
 @bots = @config[:bots].split(' ')
 @chain_options = @config[:chain_options]
-@chain_options = @chain_options.merge(log: Logger.new(__FILE__.sub(/\.rb$/, '.log')))
+@chain_options = @chain_options.merge(
+  log: Logger.new(__FILE__.sub(/\.rb$/, '.log')),
+  pool_size: 4
+)
 
 def may_transfer?(op)
   return false unless @voters.keys.include? op.voter.to_sym
